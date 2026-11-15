@@ -1,0 +1,1262 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PinkStock | Management System</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+:root {
+    --pink: #ed1598;
+    --dark-pink: #c90079;
+    --light-pink: #fff0f8;
+    --purple: #a34bd6;
+    --green: #20a765;
+    --orange: #ed9638;
+    --text: #29243a;
+    --muted: #92909e;
+    --border: #f0dce9;
+}
+
+body {
+    background: #fff5fa;
+    color: var(--text);
+    padding: 18px;
+}
+
+.container {
+    display: flex;
+    max-width: 1500px;
+    min-height: 95vh;
+    margin: auto;
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 35px #d98ab522;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    background: linear-gradient(180deg, #f23ba6, #d91b88);
+    color: white;
+    padding: 25px 15px;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.logo-icon {
+    display: block;
+    font-size: 38px;
+    margin-bottom: 8px;
+}
+
+.tagline {
+    text-align: center;
+    font-size: 11px;
+    opacity: .85;
+    margin-bottom: 30px;
+}
+
+.sidebar button {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: white;
+    text-align: left;
+    cursor: pointer;
+    font-size: 13px;
+    transition: .2s;
+}
+
+.sidebar button:hover,
+.sidebar button.active {
+    background: #ffffff38;
+}
+
+.sidebar .bottom {
+    margin-top: 35px;
+    border-top: 1px solid #ffffff55;
+    padding-top: 15px;
+}
+
+/* MAIN */
+
+.main {
+    flex: 1;
+    min-width: 0;
+    padding: 27px;
+    background: #fffafd;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    gap: 12px;
+}
+
+.header h1 {
+    font-size: 25px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.primary {
+    background: var(--pink);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 17px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.primary:hover {
+    background: var(--dark-pink);
+}
+
+/* CARDS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 20px;
+    box-shadow: 0 3px 12px #ed159808;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-height: 125px;
+}
+
+.stat-icon {
+    width: 55px;
+    height: 55px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    font-size: 27px;
+}
+
+.pink-bg {
+    background: #ffe0f2;
+    color: var(--pink);
+}
+
+.purple-bg {
+    background: #f1dfff;
+    color: var(--purple);
+}
+
+.green-bg {
+    background: #dff8e9;
+    color: var(--green);
+}
+
+.orange-bg {
+    background: #fff0dc;
+    color: var(--orange);
+}
+
+.stat-info h3 {
+    font-size: 12px;
+    font-weight: normal;
+    color: #777;
+}
+
+.number {
+    font-size: 26px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* SECTIONS */
+
+.middle {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 17px;
+    margin-bottom: 20px;
+}
+
+.chart {
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: repeating-linear-gradient(
+        to bottom,
+        white 0,
+        white 48px,
+        #f5eaf1 49px
+    );
+    border-bottom: 1px solid #ddd;
+}
+
+.empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 25px 10px;
+}
+
+.empty-icon {
+    display: block;
+    font-size: 40px;
+    margin-bottom: 12px;
+    opacity: .7;
+}
+
+.bottom-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+/* TABLES */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 18px;
+    font-size: 13px;
+}
+
+th, td {
+    padding: 13px 10px;
+    text-align: left;
+    border-bottom: 1px solid #f2e8ef;
+}
+
+th {
+    background: #fff1f8;
+    color: #6d5264;
+}
+
+.status {
+    display: inline-block;
+    background: #e2f8e9;
+    color: #16894b;
+    padding: 5px 9px;
+    border-radius: 15px;
+    font-size: 11px;
+}
+
+.low {
+    background: #fff0df;
+    color: #d47a20;
+}
+
+table button {
+    background: var(--pink);
+    color: white;
+    padding: 7px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* TOOLBAR */
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+input, select {
+    padding: 11px;
+    border: 1px solid #e8dce5;
+    border-radius: 7px;
+    outline: none;
+}
+
+input:focus, select:focus {
+    border-color: var(--pink);
+}
+
+.toolbar input {
+    flex: 1;
+    min-width: 0;
+}
+
+/* PAGES */
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.page-heading {
+    font-size: 19px;
+    margin-bottom: 5px;
+}
+
+.muted {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* EMPTY TABLE */
+
+.empty-row {
+    text-align: center;
+    color: var(--muted);
+    padding: 35px;
+}
+
+/* MODAL */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #0007;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    z-index: 10;
+}
+
+.modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    width: 420px;
+    max-width: 100%;
+}
+
+.modal-content h2 {
+    margin-bottom: 18px;
+}
+
+.modal-content label {
+    display: block;
+    margin: 12px 0 6px;
+    font-size: 13px;
+}
+
+.modal-content input,
+.modal-content select {
+    width: 100%;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.cancel {
+    background: #eee;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+/* TOAST */
+
+.toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: #29243a;
+    color: white;
+    padding: 13px 20px;
+    border-radius: 8px;
+    display: none;
+    z-index: 20;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 1050px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .middle {
+        grid-template-columns: 1fr;
+    }
+
+    .bottom-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media(max-width: 650px) {
+    body {
+        padding: 0;
+    }
+
+    .container {
+        display: block;
+        border-radius: 0;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .tagline {
+        margin-bottom: 12px;
+    }
+
+    .sidebar button {
+        display: inline-block;
+        width: auto;
+        margin: 3px;
+        padding: 10px;
+    }
+
+    .sidebar .bottom {
+        margin-top: 10px;
+    }
+
+    .main {
+        padding: 16px;
+    }
+
+    .stats {
+        gap: 8px;
+    }
+
+    .stat-card {
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .stat-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 20px;
+    }
+
+    .number {
+        font-size: 20px;
+    }
+
+    .bottom-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        flex-wrap: wrap;
+    }
+
+    .toolbar {
+        flex-wrap: wrap;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        <span class="logo-icon">🛍️</span>
+        PinkStock
+    </div>
+
+    <div class="tagline">Smart Inventory. Better Business.</div>
+
+    <button class="active" onclick="showPage('dashboard',this)">▣ Dashboard</button>
+    <button onclick="showPage('products',this)">📦 Products</button>
+    <button onclick="showPage('orders',this)">🛒 Orders</button>
+    <button onclick="showPage('customers',this)">♙ Customers</button>
+    <button onclick="showPage('analytics',this)">📊 Analytics</button>
+    <button onclick="showPage('categories',this)">▤ Categories</button>
+    <button onclick="showPage('promotions',this)">◇ Promotions</button>
+    <button onclick="showPage('inventory',this)">▦ Inventory</button>
+    <button onclick="showPage('feedback',this)">☆ Feedback / Reviews</button>
+    <button onclick="showPage('notifications',this)">🔔 Notifications</button>
+
+    <div class="bottom">
+        <button onclick="showPage('profile',this)">♙ Profile</button>
+        <button onclick="showPage('settings',this)">⚙ Settings</button>
+        <button onclick="notify('You are using demo mode.')">⇥ Logout</button>
+    </div>
+
+</aside>
+
+<!-- MAIN CONTENT -->
+
+<main class="main">
+
+<div class="header">
+    <h1 id="pageTitle">Product Overview</h1>
+
+    <div class="header-actions">
+        <button class="primary" onclick="openModal()">
+            + New Product
+        </button>
+    </div>
+</div>
+
+<!-- DASHBOARD -->
+
+<section class="page active" id="dashboard">
+
+    <div class="stats">
+
+        <div class="card stat-card">
+            <div class="stat-icon pink-bg">📦</div>
+            <div class="stat-info">
+                <h3>Total Products</h3>
+                <div class="number" id="totalProducts">0</div>
+                <span class="muted">Products listed</span>
+            </div>
+        </div>
+
+        <div class="card stat-card">
+            <div class="stat-icon purple-bg">⚠️</div>
+            <div class="stat-info">
+                <h3>Low Stock Items</h3>
+                <div class="number" id="lowItems">0</div>
+                <span class="muted">Needs attention</span>
+            </div>
+        </div>
+
+        <div class="card stat-card">
+            <div class="stat-icon green-bg">₱</div>
+            <div class="stat-info">
+                <h3>Total Revenue</h3>
+                <div class="number" id="revenue">₱0.00</div>
+                <span class="muted">Sales recorded</span>
+            </div>
+        </div>
+
+        <div class="card stat-card">
+            <div class="stat-icon orange-bg">🛒</div>
+            <div class="stat-info">
+                <h3>Pending Orders</h3>
+                <div class="number" id="pendingOrders">0</div>
+                <span class="muted">Waiting for processing</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="middle">
+
+        <div class="card">
+            <h2 class="card-title">📊 Sales Analytics</h2>
+            <div class="chart" id="salesChart">
+                <div class="empty">
+                    <span class="empty-icon">📈</span>
+                    No sales records yet.
+                </div>
+            </div>
+            <p class="muted" style="margin-top:12px">
+                Your sales performance will appear here.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">⚠️ Inventory Warnings</h2>
+            <div id="warnings">
+                <div class="empty">
+                    <span class="empty-icon">📦</span>
+                    No inventory warnings.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-grid">
+
+        <div class="card">
+            <h3 class="card-title">🛒 Recent Orders</h3>
+            <div class="empty">
+                <span class="empty-icon">📋</span>
+                No orders available.
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">⭐ Latest Feedback</h3>
+            <div class="empty">
+                <span class="empty-icon">💬</span>
+                No feedback yet.
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">🔔 Notifications</h3>
+            <div class="empty">
+                <span class="empty-icon">🔔</span>
+                No notifications.
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- PRODUCTS -->
+
+<section class="page" id="products">
+    <div class="card">
+        <h2 class="page-heading">Product Management</h2>
+        <p class="muted">Manage and monitor your products.</p>
+
+        <div class="toolbar">
+            <input type="text" id="search"
+                placeholder="Search products..."
+                oninput="renderProducts()">
+
+            <button class="primary" onclick="openModal()">+ Add Product</button>
+        </div>
+
+        <div style="overflow-x:auto">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="productList"></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ORDERS -->
+
+<section class="page" id="orders">
+    <div class="card">
+        <h2 class="page-heading">Customer Orders</h2>
+        <p class="muted">Monitor your customer transactions.</p>
+
+        <div style="overflow-x:auto">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="orderList"></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- CUSTOMERS -->
+
+<section class="page" id="customers">
+    <div class="card">
+        <h2 class="page-heading">Customer Information</h2>
+        <p class="muted">Your registered customers will appear here.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Total Orders</th>
+                </tr>
+            </thead>
+            <tbody id="customerList"></tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ANALYTICS -->
+
+<section class="page" id="analytics">
+    <div class="card">
+        <h2 class="page-heading">Business Analytics</h2>
+        <p class="muted">Your business performance summary.</p>
+
+        <div class="stats" style="margin-top:20px">
+            <div class="card">
+                <h3>Total Revenue</h3>
+                <div class="number" id="analyticsRevenue">₱0.00</div>
+            </div>
+            <div class="card">
+                <h3>Total Orders</h3>
+                <div class="number" id="analyticsOrders">0</div>
+            </div>
+            <div class="card">
+                <h3>Total Customers</h3>
+                <div class="number" id="analyticsCustomers">0</div>
+            </div>
+            <div class="card">
+                <h3>Total Products</h3>
+                <div class="number" id="analyticsProducts">0</div>
+            </div>
+        </div>
+
+        <div class="empty">
+            <span class="empty-icon">📊</span>
+            Analytics will update when you record transactions.
+        </div>
+    </div>
+</section>
+
+<!-- CATEGORIES -->
+
+<section class="page" id="categories">
+    <div class="card">
+        <h2 class="page-heading">Product Categories</h2>
+        <div id="categoryList" class="empty">
+            <span class="empty-icon">📁</span>
+            No categories available.
+        </div>
+    </div>
+</section>
+
+<!-- PROMOTIONS -->
+
+<section class="page" id="promotions">
+    <div class="card">
+        <h2 class="page-heading">Promotions and Discounts</h2>
+        <div class="empty">
+            <span class="empty-icon">🎁</span>
+            No promotions available.
+        </div>
+        <button class="primary" onclick="notify('Promotion feature is ready for setup.')">
+            + Create Promotion
+        </button>
+    </div>
+</section>
+
+<!-- INVENTORY -->
+
+<section class="page" id="inventory">
+    <div class="card">
+        <h2 class="page-heading">Inventory Management</h2>
+
+        <div style="overflow-x:auto">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Available Stock</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryList"></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- FEEDBACK -->
+
+<section class="page" id="feedback">
+    <div class="card">
+        <h2 class="page-heading">Customer Feedback / Reviews</h2>
+        <div class="empty">
+            <span class="empty-icon">⭐</span>
+            No customer reviews yet.
+        </div>
+    </div>
+</section>
+
+<!-- NOTIFICATIONS -->
+
+<section class="page" id="notifications">
+    <div class="card">
+        <h2 class="page-heading">Notifications</h2>
+        <div id="notificationList" class="empty">
+            <span class="empty-icon">🔔</span>
+            No notifications available.
+        </div>
+    </div>
+</section>
+
+<!-- PROFILE -->
+
+<section class="page" id="profile">
+    <div class="card">
+        <h2 class="page-heading">Business Profile</h2>
+        <br>
+        <p>Store Name: PinkStock Shop</p>
+        <br>
+        <p>Account Type: Business Owner</p>
+        <br>
+        <p>Email: Not yet registered</p>
+    </div>
+</section>
+
+<!-- SETTINGS -->
+
+<section class="page" id="settings">
+    <div class="card">
+        <h2 class="page-heading">Settings</h2>
+        <br>
+
+        <label>Store Name</label>
+        <br><br>
+        <input type="text" id="storeName" value="PinkStock Shop">
+
+        <br><br>
+        <label>Currency</label>
+        <br><br>
+        <select id="currency">
+            <option value="₱">Philippine Peso (₱)</option>
+            <option value="$">US Dollar ($)</option>
+        </select>
+
+        <br><br>
+        <button class="primary" onclick="saveSettings()">Save Settings</button>
+    </div>
+</section>
+
+</main>
+</div>
+
+<!-- ADD PRODUCT MODAL -->
+
+<div class="modal" id="productModal">
+    <div class="modal-content">
+
+        <h2>＋ Add New Product</h2>
+
+        <form id="productForm">
+
+            <label>Product Name</label>
+            <input type="text" id="productName"
+                placeholder="Enter product name" required>
+
+            <label>Category</label>
+            <select id="productCategory">
+                <option>Electronics</option>
+                <option>Accessories</option>
+                <option>Food</option>
+                <option>Clothing</option>
+                <option>Other</option>
+            </select>
+
+            <label>Product Price</label>
+            <input type="number" id="productPrice"
+                placeholder="Enter price" min="0" step="0.01" required>
+
+            <label>Stock Quantity</label>
+            <input type="number" id="productStock"
+                placeholder="Enter quantity" min="0" step="1" required>
+
+            <div class="modal-buttons">
+                <button type="button" class="cancel"
+                    onclick="closeModal()">Cancel</button>
+
+                <button type="submit" class="primary">Save Product</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+// EMPTY DATABASE - ALL STARTING RECORDS ARE ZERO
+
+let products = [];
+let orders = [];
+let customers = [];
+let promotions = [];
+let feedback = [];
+let notifications = [];
+
+let totalRevenue = 0;
+let currency = "₱";
+
+// FORMAT MONEY
+
+function money(amount) {
+    return currency + Number(amount).toLocaleString("en-PH", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
+// SAFE TEXT DISPLAY
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+// PAGE NAVIGATION
+
+function showPage(pageId, button) {
+
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    document.getElementById(pageId).classList.add("active");
+
+    document.querySelectorAll(".sidebar button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    if (button) button.classList.add("active");
+
+    const titles = {
+        dashboard: "Product Overview",
+        products: "Products",
+        orders: "Orders",
+        customers: "Customers",
+        analytics: "Analytics",
+        categories: "Categories",
+        promotions: "Promotions",
+        inventory: "Inventory",
+        feedback: "Feedback / Reviews",
+        notifications: "Notifications",
+        profile: "Profile",
+        settings: "Settings"
+    };
+
+    document.getElementById("pageTitle").textContent =
+        titles[pageId];
+
+    renderAll();
+}
+
+// MODAL
+
+function openModal() {
+    document.getElementById("productModal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("productModal").style.display = "none";
+}
+
+// ADD PRODUCT
+
+document.getElementById("productForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const name = document.getElementById("productName").value.trim();
+    const category = document.getElementById("productCategory").value;
+    const price = Number(document.getElementById("productPrice").value);
+    const stock = Number(document.getElementById("productStock").value);
+
+    if (!name || !Number.isFinite(price) || price < 0 ||
+        !Number.isInteger(stock) || stock < 0) {
+        notify("Please enter valid product information.");
+        return;
+    }
+
+    products.push({
+        id: Date.now(),
+        name,
+        category,
+        price,
+        stock
+    });
+
+    this.reset();
+    closeModal();
+
+    renderAll();
+
+    notify("Product added successfully!");
+
+});
+
+// DISPLAY PRODUCTS
+
+function renderProducts() {
+
+    const search = document.getElementById("search").value.toLowerCase();
+
+    const filtered = products.filter(product =>
+        product.name.toLowerCase().includes(search)
+    );
+
+    document.getElementById("productList").innerHTML =
+        filtered.map(product => `
+        <tr>
+            <td>${escapeHTML(product.name)}</td>
+            <td>${escapeHTML(product.category)}</td>
+            <td>${money(product.price)}</td>
+            <td>${product.stock}</td>
+            <td>
+                <span class="status ${product.stock <= 10 ? 'low' : ''}">
+                    ${product.stock <= 10 ? "Low Stock" : "In Stock"}
+                </span>
+            </td>
+            <td>
+                <button onclick="restock(${product.id})">Restock</button>
+            </td>
+        </tr>
+        `).join("") ||
+        `<tr><td colspan="6" class="empty-row">No products available.</td></tr>`;
+}
+
+// INVENTORY
+
+function renderInventory() {
+
+    document.getElementById("inventoryList").innerHTML =
+        products.map(product => `
+        <tr>
+            <td>${escapeHTML(product.name)}</td>
+            <td>${product.stock}</td>
+            <td>
+                <span class="status ${product.stock <= 10 ? 'low' : ''}">
+                    ${product.stock <= 10 ? "Low Stock" : "Available"}
+                </span>
+            </td>
+            <td>
+                <button onclick="restock(${product.id})">+ Restock</button>
+            </td>
+        </tr>
+        `).join("") ||
+        `<tr><td colspan="4" class="empty-row">No inventory records.</td></tr>`;
+}
+
+// RESTOCK
+
+function restock(id) {
+
+    const product = products.find(item => item.id === id);
+
+    if (!product) return;
+
+    const quantity = Number(prompt("Enter quantity to add:"));
+
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+        notify("Please enter a valid quantity.");
+        return;
+    }
+
+    product.stock += quantity;
+
+    renderAll();
+
+    notify("Inventory successfully updated!");
+}
+
+// INVENTORY WARNINGS
+
+function renderWarnings() {
+
+    const lowStock = products.filter(product => product.stock <= 10);
+
+    document.getElementById("warnings").innerHTML =
+        lowStock.map(product => `
+        <div style="padding:12px 0;border-bottom:1px solid #eee">
+            <strong>${product.stock}</strong>
+            ${escapeHTML(product.name)}
+            <button onclick="restock(${product.id})"
+                style="float:right;background:#ed1598;color:white;border:0;padding:6px;border-radius:5px;cursor:pointer">
+                Restock
+            </button>
+            <p class="muted">Units remaining</p>
+        </div>
+        `).join("") ||
+        `<div class="empty">No inventory warnings.</div>`;
+}
+
+// DASHBOARD AND ANALYTICS
+
+function updateDashboard() {
+
+    document.getElementById("totalProducts").textContent = products.length;
+
+    document.getElementById("lowItems").textContent =
+        products.filter(product => product.stock <= 10).length;
+
+    document.getElementById("revenue").textContent = money(totalRevenue);
+
+    document.getElementById("pendingOrders").textContent =
+        orders.filter(order => order.status !== "Completed").length;
+
+    document.getElementById("analyticsRevenue").textContent = money(totalRevenue);
+    document.getElementById("analyticsOrders").textContent = orders.length;
+    document.getElementById("analyticsCustomers").textContent = customers.length;
+    document.getElementById("analyticsProducts").textContent = products.length;
+
+    renderWarnings();
+}
+
+// ORDERS
+
+function renderOrders() {
+
+    document.getElementById("orderList").innerHTML =
+        orders.map(order => `
+        <tr>
+            <td>${escapeHTML(order.id)}</td>
+            <td>${escapeHTML(order.customer)}</td>
+            <td>${money(order.total)}</td>
+            <td>${escapeHTML(order.status)}</td>
+        </tr>
+        `).join("") ||
+        `<tr><td colspan="4" class="empty-row">No orders available.</td></tr>`;
+}
+
+// CUSTOMERS
+
+function renderCustomers() {
+
+    document.getElementById("customerList").innerHTML =
+        customers.map(customer => `
+        <tr>
+            <td>${escapeHTML(customer.name)}</td>
+            <td>${escapeHTML(customer.email)}</td>
+            <td>${customer.orders || 0}</td>
+        </tr>
+        `).join("") ||
+        `<tr><td colspan="3" class="empty-row">No customers available.</td></tr>`;
+}
+
+// CATEGORIES
+
+function renderCategories() {
+
+    const categories = [...new Set(products.map(p => p.category))];
+
+    document.getElementById("categoryList").innerHTML =
+        categories.map(category => `
+        <p style="padding:12px;border-bottom:1px solid #eee">
+            📁 ${escapeHTML(category)}
+        </p>
+        `).join("") ||
+        `<div class="empty">No categories available.</div>`;
+}
+
+// NOTIFICATIONS
+
+function renderNotifications() {
+
+    document.getElementById("notificationList").innerHTML =
+        notifications.map(item => `
+        <p style="padding:12px;border-bottom:1px solid #eee">
+            🔔 ${escapeHTML(item)}
+        </p>
+        `).join("") ||
+        `<div class="empty">No notifications available.</div>`;
+}
+
+// UPDATE ALL SECTIONS
+
+function renderAll() {
+
+    updateDashboard();
+    renderProducts();
+    renderInventory();
+    renderOrders();
+    renderCustomers();
+    renderCategories();
+    renderNotifications();
+}
+
+// SETTINGS
+
+function saveSettings() {
+
+    const storeName = document.getElementById("storeName").value.trim();
+
+    currency = document.getElementById("currency").value;
+
+    if (!storeName) {
+        notify("Please enter a store name.");
+        return;
+    }
+
+    renderAll();
+
+    notify("Settings saved successfully!");
+}
+
+// TOAST NOTIFICATION
+
+function notify(message) {
+
+    const toast = document.getElementById("toast");
+
+    toast.textContent = message;
+    toast.style.display = "block";
+
+    setTimeout(() => {
+        toast.style.display = "none";
+    }, 2500);
+}
+
+// INITIALIZE SYSTEM
+
+renderAll();
+
+</script>
+
+</body>
+</html>
